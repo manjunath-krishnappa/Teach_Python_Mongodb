@@ -62,6 +62,7 @@ def insert_into_mongo(count):
         return listOfResponseTimes
 
 
+
 if __name__ == '__main__':
 
     listOfResponseTimes = insert_into_mongo(10)

@@ -2,7 +2,7 @@ import random
 import uuid
 import string
 import datetime
-
+from datetime import datetime
 
 def random_number(num1, num2):
     return random.randint(num1, num2)
@@ -27,3 +27,10 @@ def datetime_now():
 
 def get_uuid():
     return str(uuid.uuid4())
+
+
+def get_current_time_in_epoch():
+    date = datetime.utcnow() - datetime(1970, 1, 1)
+    seconds = (date.total_seconds())
+    milliseconds = round(seconds * 1000)
+    return milliseconds
