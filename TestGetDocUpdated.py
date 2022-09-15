@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     nThreadsPerSec = 10
 
-    for _ in range(1, 11):
+    for _ in range(1, 330):
         log.info("")
         log.info("Loop : " + str(_))
         TriggerThreads(nThreadsPerSec)
