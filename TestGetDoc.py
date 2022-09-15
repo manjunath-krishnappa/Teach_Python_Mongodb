@@ -32,9 +32,11 @@ def get_doc_from_mongo1(count):
 
 
 def get_doc_from_mongo():
+
     print("get_doc_from_mongo assigned to thread    : {}".format(threading.current_thread().name))
-    #print("ID of process running get_doc_from_mongo : {}".format(os.getpid()))
+
     time_diff = None
+
     try:
         client = pymongo.MongoClient(MONGO_URL)
         client.get_database(MONGO_DB_NAME)
@@ -43,7 +45,6 @@ def get_doc_from_mongo():
         before = (time.time()) / 1000
 
         random_num = random_number(1, 100)
-        random_num = 123456789
         find_one_result = content_file.find_one({'size': random_num})
         if find_one_result is not None:
             log.info(find_one_result['name'] + " \t " + str(find_one_result['size']))
