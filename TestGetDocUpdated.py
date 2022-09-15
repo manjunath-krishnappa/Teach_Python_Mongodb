@@ -12,31 +12,37 @@ from Utils import random_number, get_current_time_in_epoch
 def get_doc_from_mongo():
 
     print("get_doc_from_mongo assigned to thread    : {}".format(threading.current_thread().name))
-    time_diff = None
-
     try:
+        client = None
+        time_diff = None
+        before = None
+        after = None
+
         client = pymongo.MongoClient(MONGO_URL)
         client.get_database(MONGO_DB_NAME)
         db = client.content_db
         content_file = db.get_collection(COLL_NAME1)
-        before = (time.time()) / 1000
 
+        before = (time.time()) / 1000
         random_num = random_number(1, 100)
         find_one_result = content_file.find_one({'size': random_num})
+
         if find_one_result is not None:
             log.info(find_one_result['name'] + " \t " + str(find_one_result['size']))
         else:
             log.info("Query returned None")
+
         after = (time.time()) / 1000
         time_diff = after - before
+
         log.info("thread {} : epoch ms before get query   : {}".format(threading.current_thread().name, before))
         log.info("thread {} : epoch ms after  get query   : {}".format(threading.current_thread().name, after))
+        log.info("thread {} : time_diff                   : {}".format(threading.current_thread().name, time_diff)
     except ConfigurationError:
-        print("ConfigurationError")
+        log.error("ConfigurationError")
     except ServerSelectionTimeoutError:
-        print("ServerSelectionTimeoutError")
-    finally:
-        log.info("thread {} : time_diff                   : {}".format(threading.current_thread().name, time_diff))
+        log.error("ServerSelectionTimeoutError")
+
     return time_diff
 
 
