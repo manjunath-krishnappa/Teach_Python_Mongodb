@@ -37,7 +37,7 @@ def get_doc_from_mongo():
 
         log.info("thread {} : epoch ms before get query   : {}".format(threading.current_thread().name, before))
         log.info("thread {} : epoch ms after  get query   : {}".format(threading.current_thread().name, after))
-        log.info("thread {} : time_diff                   : {}".format(threading.current_thread().name, time_diff)
+        log.info("thread {} : time_diff                   : {}".format(threading.current_thread().name, time_diff))
     except ConfigurationError:
         log.error("ConfigurationError")
     except ServerSelectionTimeoutError:
