@@ -10,27 +10,26 @@ from Utils import random_number, get_current_time_in_epoch
 
 
 def get_doc_from_mongo():
-
     print("get_doc_from_mongo assigned to thread    : {}".format(threading.current_thread().name))
+
     try:
-        client = None
-        time_diff = None
-        before = None
-        after = None
+        client, db, coll = None, None, None
+        time_diff, before, after = None, None, None
 
         client = pymongo.MongoClient(MONGO_URL)
-        client.get_database(MONGO_DB_NAME)
-        db = client.content_db
-        content_file = db.get_collection(COLL_NAME1)
+        db = client.get_database(MONGO_DB_NAME)
+        coll = db.get_collection(COLL_NAME1)
 
         before = (time.time()) / 1000
-        random_num = random_number(1, 100)
-        find_one_result = content_file.find_one({'size': random_num})
+        user = 'admin-tenant-' + str(random_number(1, 1000))
+        find_one_result = coll.find_one({'createdBy': user})
 
         if find_one_result is not None:
-            log.info(find_one_result['name'] + " \t " + str(find_one_result['size']))
+            log.info(find_one_result['name'] + " \t " + str(find_one_result['createdBy']))
         else:
-            log.info("Query returned None")
+            log.info(" Query returned None for thread {} : and createdBy user : {}".
+                     format(threading.current_thread().name, user)
+                     )
 
         after = (time.time()) / 1000
         time_diff = after - before
@@ -47,7 +46,6 @@ def get_doc_from_mongo():
 
 
 def TriggerThreads(nThreadsPerSec):
-
     listOfThreads = list()
 
     for num in range(1, nThreadsPerSec + 1):
