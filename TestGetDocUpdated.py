@@ -32,11 +32,13 @@ def get_doc_from_mongo():
                      )
 
         after = (time.time()) / 1000
-        time_diff = after - before
+        time_diff_sec = after - before
+        time_diff_millisec = time_diff_sec * 1000
 
         log.info("thread {} : epoch ms before get query   : {}".format(threading.current_thread().name, before))
         log.info("thread {} : epoch ms after  get query   : {}".format(threading.current_thread().name, after))
-        log.info("thread {} : time_diff                   : {}".format(threading.current_thread().name, time_diff))
+        log.info("thread {} : time_diff sec               : {}".format(threading.current_thread().name, time_diff_sec))
+        log.info("thread {} : time_diff millisec          : {}".format(threading.current_thread().name, time_diff_millisec))
     except ConfigurationError:
         log.error("ConfigurationError")
     except ServerSelectionTimeoutError:
